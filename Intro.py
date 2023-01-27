@@ -26,7 +26,8 @@ scroll = 0
 tiles = math.ceil(SCREEN_WIDTH  / bg_width) + 1
 count = 0
 font = pygame.font.SysFont('Berlin Sans FB', 40)
-objects = []
+menuobjects = []
+gameobjects = []
 
 
 #Play button defs
@@ -51,8 +52,6 @@ class Button():
       self.buttonSurf = font.render(buttonText, True, (255, 183, 0))
 
       self.alreadyPressed = False
-
-      objects.append(self)
 
   def process(self):
 
@@ -81,41 +80,47 @@ class Button():
       screen.blit(self.buttonSurface, self.buttonRect)
 
 def myFunction():
-    print()
+  global stage
+  stage = "game"
 
 #game loop
+stage = "menu"
 run = True
 while run:
 
   clock.tick(FPS)
+  if stage == "menu":
+    #scroll background
+    scroll -= 5
 
-  #scroll background
-  scroll -= 5
+    #draw scrolling background
+    if count == 702:
+      title = pygame.image.load("Images\CheeseGameTitle.png").convert()
+      screen.blit(title, (0, 0))
+      PlayButton = Button(650, 450, 200, 50, 'PLAY', myFunction)
+      menuobjects.append(PlayButton)
+    else:
+      for i in range(0, tiles):
+        screen.blit(bg, (i * bg_width + scroll, 0))
+        bg_rect.x = i * bg_width + scroll
+        count += 1
 
-  #draw scrolling background
-  if count == 702:
-    title = pygame.image.load("Images\CheeseGameTitle.png").convert()
-    screen.blit(title, (0, 0))
-    PlayButton = Button(650, 450, 200, 50, 'PLAY', myFunction)
-  else:
-    for i in range(0, tiles):
-      screen.blit(bg, (i * bg_width + scroll, 0))
-      bg_rect.x = i * bg_width + scroll
-      count += 1
-
-  #reset scroll
-  if abs(scroll) > bg_width:
-    scroll = 0
-    
-
+    #reset scroll
+    if abs(scroll) > bg_width:
+      scroll = 0
+    for object in menuobjects:
+      object.process()
+  elif stage == "game":
+    screen = pygame.display.set_mode((1000, 600))
+    bg2 = pygame.image.load("Images\\bg2.png").convert()
+    screen.blit(bg2, (0, 0))
 
   #event handler
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       run = False
   
-  for object in objects:
-    object.process()
+
 
   pygame.display.update()
 
