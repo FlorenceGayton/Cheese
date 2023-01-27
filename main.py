@@ -3,6 +3,7 @@ import pygame
 def main():
 
     pygame.init()
+    
 
     logo, cheese = load_assets()
 
@@ -22,20 +23,37 @@ def main():
     cheese_y=250
     step=2
     
+    #load image
+    bg = pygame.image.load("Images\pixil-frame-0.png").convert()
+    bg = pygame.transform.scale(bg, (1000, 600))
+    
+    
+    #define game variables
+    tiles = (screen_x / 1000)
+    scroll = 0
+    
+    
 
-
+#run game
     while running:
+     
+        
+        #event handler
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
         
+        #draw scrolling background
+        screen.blit(bg, (0, 0))
         screen.blit(cheese, (cheese_x,cheese_y))
+        
+        #scroll background
+        scroll -= 5
            
         pygame.display.flip() 
         pygame.display.update()    
-
-        screen.fill((255,205,77))
         
+        #cheese move
         key_input = pygame.key.get_pressed()
         if key_input[pygame.K_LEFT] and cheese_x > step:
             cheese_x -= step
