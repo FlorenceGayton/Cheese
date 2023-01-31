@@ -87,7 +87,6 @@ def myFunction():
 stage = "menu"
 run = True
 while run:
-
   clock.tick(FPS)
   if stage == "menu":
     #scroll background
@@ -111,16 +110,41 @@ while run:
     for object in menuobjects:
       object.process()
   elif stage == "game":
+    #new background
     screen = pygame.display.set_mode((1000, 600))
+    screen_x = 1000
+    screen_y = 600
     bg2 = pygame.image.load("Images\\bg2.png").convert()
     screen.blit(bg2, (0, 0))
+
+    #set character move variables
+    CheeseChar_x = 100
+    CheeseChar_y = 220
+    step = 2
+    
+    #add character
+    CheeseCharacter = pygame.image.load("Images\CheeseCharacter.png")
+    screen.blit(CheeseCharacter, (CheeseChar_x, CheeseChar_y))
+    
+    # Character move
+    pygame.display.flip() 
+    pygame.display.update()    
+    
+    key_input = pygame.key.get_pressed()
+    if key_input[pygame.K_LEFT] and CheeseChar_x > step:
+      CheeseChar_x -= step
+    if key_input[pygame.K_RIGHT] and CheeseChar_x < screen_x - 144 - step:
+        CheeseChar_x += step
+    if key_input[pygame.K_UP] and CheeseChar_y > step:
+        CheeseChar_y -= step
+    if key_input[pygame.K_DOWN] and CheeseChar_y < screen_y - 162 - step:
+        CheeseChar_y += step
+
 
   #event handler
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       run = False
-  
-
 
   pygame.display.update()
 

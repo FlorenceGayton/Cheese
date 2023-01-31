@@ -28,15 +28,9 @@ def main():
     bg = pygame.transform.scale(bg, (1000, 600))
     
     
-    #define game variables
-    tiles = (screen_x / 1000)
-    scroll = 0
-    
-    
 
 #run game
     while running:
-     
         
         #event handler
         for event in pygame.event.get():
@@ -46,10 +40,7 @@ def main():
         #draw scrolling background
         screen.blit(bg, (0, 0))
         screen.blit(cheese, (cheese_x,cheese_y))
-        
-        #scroll background
-        scroll -= 5
-           
+            
         pygame.display.flip() 
         pygame.display.update()    
         
